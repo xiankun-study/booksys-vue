@@ -6,7 +6,9 @@
         <el-card class="stat-card" shadow="hover">
           <div class="stat-content">
             <div class="stat-icon" :class="stat.iconClass">
-              <el-icon><component :is="stat.icon" /></el-icon>
+              <el-icon>
+                <component :is="stat.icon" />
+              </el-icon>
             </div>
             <div class="stat-info">
               <div class="stat-title">{{ stat.title }}</div>
@@ -27,32 +29,40 @@
               <span>⚡ 快捷操作</span>
             </div>
           </template>
-          
+
           <div class="action-grid">
             <div class="action-item" @click="$router.push('/admin/borrows?action=add')">
               <div class="action-icon borrow-action">
-                <el-icon><DocumentAdd /></el-icon>
+                <el-icon>
+                  <DocumentAdd />
+                </el-icon>
               </div>
               <div class="action-text">新增借阅</div>
             </div>
-            
+
             <div class="action-item" @click="$router.push('/admin/books?action=add')">
               <div class="action-icon book-action">
-                <el-icon><Plus /></el-icon>
+                <el-icon>
+                  <Plus />
+                </el-icon>
               </div>
               <div class="action-text">新增图书</div>
             </div>
-            
+
             <div class="action-item" @click="$router.push('/admin/users?action=add')">
               <div class="action-icon user-action">
-                <el-icon><UserFilled /></el-icon>
+                <el-icon>
+                  <UserFilled />
+                </el-icon>
               </div>
               <div class="action-text">新增用户</div>
             </div>
-            
+
             <div class="action-item" @click="$router.push('/admin/stats')">
               <div class="action-icon stats-action">
-                <el-icon><DataLine /></el-icon>
+                <el-icon>
+                  <DataLine />
+                </el-icon>
               </div>
               <div class="action-text">数据报表</div>
             </div>
@@ -69,39 +79,51 @@
               <el-tag type="danger" size="small" v-if="pendingCount > 0">{{ pendingCount }}</el-tag>
             </div>
           </template>
-          
+
           <div class="todo-list">
             <div class="todo-item" @click="$router.push('/admin/overdue')">
               <div class="todo-icon overdue-icon">
-                <el-icon><Warning /></el-icon>
+                <el-icon>
+                  <Warning />
+                </el-icon>
               </div>
               <div class="todo-content">
                 <div class="todo-title">逾期未还</div>
                 <div class="todo-count">{{ stats.overdue?.value || 0 }} 条记录</div>
               </div>
-              <el-icon class="todo-arrow"><ArrowRight /></el-icon>
+              <el-icon class="todo-arrow">
+                <ArrowRight />
+              </el-icon>
             </div>
-            
+
             <div class="todo-item" @click="$router.push('/admin/overdue?tab=expiring')">
               <div class="todo-icon warning-icon">
-                <el-icon><Clock /></el-icon>
+                <el-icon>
+                  <Clock />
+                </el-icon>
               </div>
               <div class="todo-content">
                 <div class="todo-title">即将到期</div>
                 <div class="todo-count">{{ expiringCount }} 条记录</div>
               </div>
-              <el-icon class="todo-arrow"><ArrowRight /></el-icon>
+              <el-icon class="todo-arrow">
+                <ArrowRight />
+              </el-icon>
             </div>
 
             <div class="todo-item" @click="$router.push('/admin/borrows?status=1')">
               <div class="todo-icon normal-icon">
-                <el-icon><List /></el-icon>
+                <el-icon>
+                  <List />
+                </el-icon>
               </div>
               <div class="todo-content">
                 <div class="todo-title">借阅中</div>
                 <div class="todo-count">{{ stats.borrows?.value || 0 }} 条记录</div>
               </div>
-              <el-icon class="todo-arrow"><ArrowRight /></el-icon>
+              <el-icon class="todo-arrow">
+                <ArrowRight />
+              </el-icon>
             </div>
           </div>
         </el-card>
@@ -116,24 +138,27 @@
               <el-tag :type="alertLevel" size="small">{{ alertLevel === 'success' ? '正常' : '注意' }}</el-tag>
             </div>
           </template>
-          
+
           <div class="alert-list">
             <div v-for="(alert, index) in alerts" :key="index" class="alert-item">
-              <el-icon :class="alert.iconClass"><component :is="alert.icon" /></el-icon>
+              <el-icon :class="alert.iconClass">
+                <component :is="alert.icon" />
+              </el-icon>
               <div class="alert-content">
                 <div class="alert-title">{{ alert.title }}</div>
                 <div class="alert-desc">{{ alert.desc }}</div>
-                
+
                 <!-- 库存预警特有：点击查看明细 -->
-                <div v-if="alert.level === 'warning' && alert.title.includes('库存')" 
-                     class="alert-action">
+                <div v-if="alert.level === 'warning' && alert.title.includes('库存')" class="alert-action">
                   <el-link type="warning" :underline="false" @click.stop="viewLowStockAlerts">
-                    <el-icon><View /></el-icon> 查看详情
+                    <el-icon>
+                      <View />
+                    </el-icon> 查看详情
                   </el-link>
                 </div>
               </div>
             </div>
-            
+
             <el-empty v-if="alerts.length === 0" description="暂无预警" :image-size="50" />
           </div>
         </el-card>
@@ -149,15 +174,19 @@
               <span>📖 最近借阅记录</span>
               <div class="header-actions">
                 <el-button type="primary" link @click="loadData">
-                  <el-icon><Refresh /></el-icon> 刷新
+                  <el-icon>
+                    <Refresh />
+                  </el-icon> 刷新
                 </el-button>
                 <el-button type="primary" link @click="$router.push('/admin/borrows')">
-                  查看全部 <el-icon><ArrowRight /></el-icon>
+                  查看全部 <el-icon>
+                    <ArrowRight />
+                  </el-icon>
                 </el-button>
               </div>
             </div>
           </template>
-          
+
           <el-table :data="recentBorrows" stripe v-loading="loading" border style="width: 100%">
             <el-table-column prop="username" label="借阅人" width="120" />
             <el-table-column prop="bookTitle" label="书名" min-width="250" />
@@ -177,7 +206,8 @@
             <el-table-column label="操作" width="150" fixed="right">
               <template #default="{ row }">
                 <el-button type="primary" link size="small" @click="viewDetail(row)">详情</el-button>
-                <el-button type="success" link size="small" v-if="row.status === 1" @click="returnBook(row)">归还</el-button>
+                <el-button type="success" link size="small" v-if="row.status === 1"
+                  @click="returnBook(row)">归还</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -186,19 +216,14 @@
     </el-row>
 
     <!-- 库存不足详情弹窗 -->
-    <el-dialog 
-      v-model="lowStockDialogVisible" 
-      title="库存不足图书列表" 
-      width="750px"
-      :close-on-click-modal="false"
-      destroy-on-close
-    >
+    <el-dialog v-model="lowStockDialogVisible" title="库存不足图书列表" width="750px" :close-on-click-modal="false"
+      destroy-on-close>
       <div class="legend">
         <span>共 {{ lowStockBooks.length }} 本库存不足：</span>
         <el-tag size="small" effect="plain">0 = 缺货</el-tag>
         <el-tag size="small" effect="plain" type="warning">1 = 余量紧张</el-tag>
       </div>
-      
+
       <el-table :data="lowStockBooks" stripe height="400" border style="margin-top: 15px">
         <el-table-column prop="bookId" label="ID" width="60" sortable />
         <el-table-column prop="title" label="书名" min-width="200" />
@@ -213,7 +238,7 @@
           </template>
         </el-table-column>
       </el-table>
-      
+
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="lowStockDialogVisible = false">关闭</el-button>
@@ -228,18 +253,18 @@
 
 <script>
 import { ElMessage } from 'element-plus'
-import { 
+import {
   User, Reading, List, Warning, Clock,
   DocumentAdd, Plus, UserFilled, DataLine,
-  ArrowRight, Refresh, View 
+  ArrowRight, Refresh, View
 } from '@element-plus/icons-vue'
 
 export default {
   name: 'AdminDashboard',
-  components: { 
+  components: {
     User, Reading, List, Warning, Clock,
     DocumentAdd, Plus, UserFilled, DataLine,
-    ArrowRight, Refresh, View 
+    ArrowRight, Refresh, View
   },
   data() {
     return {
@@ -315,29 +340,45 @@ export default {
 
     async loadBorrowStats() {
       try {
-        const res = await this.$http.get('/borrow/list', { params: { page: 0, size: 1 } })
-        if (res.data.code === 200) {
-          this.stats.borrows.value = res.data.total || 0
-          
-          const overdueRes = await this.$http.get('/user/overdue/list', { params: { page: 0, size: 1 } })
-          if (overdueRes.data.code === 200) {
-            this.stats.overdue.value = overdueRes.data.total || 0
+        const borrowRes = await this.$http.get('/borrow/list', {
+          params: {
+            page: 0,
+            size: 1,
+            status: 1
           }
-        
-          const expiringRes = await this.$http.get('/borrow/expiring')
-          if (expiringRes.data.code === 200) {
-            this.expiringCount = expiringRes.data.count || 0
-            this.stats.overdue.sub = `即将到期：${this.expiringCount}`
-          }
+        })
+        if (borrowRes.data.code === 200) {
+          this.stats.borrows.value = borrowRes.data.total || 0
+        } else {
+          this.stats.borrows.value = 0
+          console.warn('借阅中统计接口返回异常:', borrowRes.data)
+        }
+
+        // 逾期数量
+        const overdueRes = await this.$http.get('/user/overdue/list', { params: { page: 0, size: 1 } })
+        if (overdueRes.data.code === 200) {
+          this.stats.overdue.value = overdueRes.data.total || 0
+        } else {
+          this.stats.overdue.value = 0
+        }
+
+        // 即将到期数量
+        const expiringRes = await this.$http.get('/borrow/expiring')
+        if (expiringRes.data.code === 200) {
+          this.expiringCount = expiringRes.data.count || 0
+          this.stats.overdue.sub = `即将到期：${this.expiringCount}`
+        } else {
+          this.expiringCount = 0
+          this.stats.overdue.sub = '即将到期：0'
         }
       } catch (error) {
         console.error('加载借阅统计失败:', error)
-        this.stats.overdue.value = this.stats.overdue.value || 0
+        this.stats.borrows.value = 0
+        this.stats.overdue.value = 0
         this.expiringCount = 0
         this.stats.overdue.sub = '即将到期：0'
       }
     },
-
     async loadRecentBorrows() {
       try {
         const res = await this.$http.get('/borrow/list', { params: { page: 0, size: 10 } })
@@ -357,7 +398,7 @@ export default {
           if (userRes.data.code === 200) {
             borrow.username = userRes.data.data.username
           }
-          
+
           const bookRes = await this.$http.get(`/book/detail/${borrow.bookId}`)
           if (bookRes.data.code === 200) {
             borrow.bookTitle = bookRes.data.data.title
@@ -371,7 +412,7 @@ export default {
 
     async checkAlerts() {
       this.alerts = []
-      
+
       if (this.stats.overdue.value > 10) {
         this.alerts.push({
           level: 'error',
@@ -381,7 +422,7 @@ export default {
           desc: `当前逾期 ${this.stats.overdue.value} 本`
         })
       }
-      
+
       if (this.expiringCount > 5) {
         this.alerts.push({
           level: 'warning',
@@ -391,7 +432,7 @@ export default {
           desc: `${this.expiringCount} 本图书 7 天内到期`
         })
       }
-      
+
       const lowStockCount = await this.checkLowStock()
       if (lowStockCount > 0) {
         this.alerts.push({
@@ -413,7 +454,7 @@ export default {
     // 加载库存不足的图书列表
     async loadLowStockBooks() {
       try {
-        const res = await this.$http.get('/book/list', { 
+        const res = await this.$http.get('/book/list', {
           params: { page: 0, size: 100 } // 限制获取数量以防过多
         })
         if (res.data.code === 200) {
@@ -518,10 +559,21 @@ export default {
   flex-shrink: 0;
 }
 
-.user-icon { background: linear-gradient(135deg, #667eea, #764ba2); }
-.book-icon { background: linear-gradient(135deg, #f093fb, #f5576c); }
-.borrow-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-.overdue-icon { background: linear-gradient(135deg, #f43b47, #453a94); }
+.user-icon {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.book-icon {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.borrow-icon {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.overdue-icon {
+  background: linear-gradient(135deg, #f43b47, #453a94);
+}
 
 .stat-info {
   flex: 1;
@@ -552,7 +604,9 @@ export default {
   margin-bottom: 20px;
 }
 
-.action-card, .todo-card, .alert-card {
+.action-card,
+.todo-card,
+.alert-card {
   border: none;
   border-radius: 10px;
   height: auto;
@@ -607,10 +661,21 @@ export default {
   color: #fff;
 }
 
-.borrow-action { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-.book-action { background: linear-gradient(135deg, #f093fb, #f5576c); }
-.user-action { background: linear-gradient(135deg, #667eea, #764ba2); }
-.stats-action { background: linear-gradient(135deg, #11998e, #38ef7d); }
+.borrow-action {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.book-action {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.user-action {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.stats-action {
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+}
 
 .action-text {
   font-size: 13px;
@@ -655,9 +720,17 @@ export default {
   flex-shrink: 0;
 }
 
-.todo-icon.overdue-icon { background: linear-gradient(135deg, #f56c6c, #e6a23c); }
-.todo-icon.warning-icon { background: linear-gradient(135deg, #e6a23c, #f5b041); }
-.todo-icon.normal-icon { background: linear-gradient(135deg, #67c23a, #95d475); }
+.todo-icon.overdue-icon {
+  background: linear-gradient(135deg, #f56c6c, #e6a23c);
+}
+
+.todo-icon.warning-icon {
+  background: linear-gradient(135deg, #e6a23c, #f5b041);
+}
+
+.todo-icon.normal-icon {
+  background: linear-gradient(135deg, #67c23a, #95d475);
+}
 
 .todo-content {
   flex: 1;
@@ -765,8 +838,10 @@ export default {
   .middle-row {
     flex-wrap: wrap;
   }
-  
-  .action-card, .todo-card, .alert-card {
+
+  .action-card,
+  .todo-card,
+  .alert-card {
     margin-bottom: 20px;
     min-height: auto;
   }
